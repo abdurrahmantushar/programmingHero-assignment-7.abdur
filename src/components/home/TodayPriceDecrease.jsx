@@ -4,7 +4,7 @@ import { getUnitName } from "@/lib/formatUnit";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export default function TodayPriceIncrease() {
+export default function TodayPriceDecrease() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -15,7 +15,7 @@ export default function TodayPriceIncrease() {
     const fetchProducts = async () => {
       try {
         const response = await fetch(
-          "https://api.api-store.workers.dev/api/bazardor/products"
+          "https://api.abcz.workers.dev/api/bazardor/products"
         );
 
         if (!response.ok) {

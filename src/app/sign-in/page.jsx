@@ -144,14 +144,6 @@ export default function SignInPage() {
               </div>
             </div>
 
-            <div className="flex justify-end">
-              <Link
-                href="/forgot-password"
-                className="text-sm font-semibold text-green-600 transition hover:text-green-700"
-              >
-                পাসওয়ার্ড ভুলে গেছেন?
-              </Link>
-            </div>
 
             <button
               type="submit"

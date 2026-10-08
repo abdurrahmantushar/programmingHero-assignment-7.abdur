@@ -22,7 +22,7 @@ export default function Navbar() {
     const fetchCategories = async () => {
       try {
         const response = await fetch(
-          "https://api.api-store.workers.dev/api/bazardor/categories"
+          "https://api.abcz.workers.dev/api/bazardor/categories"
         );
 
         if (!response.ok) {
@@ -99,9 +99,9 @@ export default function Navbar() {
   };
 
   return (
-    <header className="bg-white">
+    <header className="bg-white ">
       <div className="mx-auto max-w-7xl px-4">
-        <div className="flex min-h-[82px] items-center justify-between gap-6">
+        <div className="flex min-h-[85px] items-center justify-between gap-6">
           <Link href="/" className="flex shrink-0 items-center gap-3">
             <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-green-600 text-white">
               <ShoppingCart size={22} strokeWidth={2.3} />

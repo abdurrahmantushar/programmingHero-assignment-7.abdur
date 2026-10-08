@@ -21,7 +21,7 @@ export default function CategoryPage({ params }) {
         const { slug } = await params;
 
         const categoryResponse = await fetch(
-          "https://api.api-store.workers.dev/api/bazardor/categories"
+          "https://api.abcz.workers.dev/api/bazardor/categories"
         );
 
         if (!categoryResponse.ok) {
@@ -40,7 +40,7 @@ export default function CategoryPage({ params }) {
         }
 
         const response = await fetch(
-          "https://api.api-store.workers.dev/api/bazardor/products"
+          "https://api.abcz.workers.dev/api/bazardor/products"
         );
 
         if (!response.ok) {
@@ -58,6 +58,7 @@ export default function CategoryPage({ params }) {
         setCategoryIcon(category.icon);
       } catch {
         setProducts([]);
+        setCategoryFound(false);
       } finally {
         setLoading(false);
       }
@@ -68,17 +69,70 @@ export default function CategoryPage({ params }) {
 
   const sortedProducts = [...products].sort((a, b) => {
     if (sortOrder === "low-high") {
-      return a.today - b.today;
+      return Number(a.today) - Number(b.today);
     }
 
     if (sortOrder === "high-low") {
-      return b.today - a.today;
+      return Number(b.today) - Number(a.today);
     }
 
     return 0;
   });
 
-  if (!loading && !categoryFound) {
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-[#f3f7f3]">
+        <div className="mx-auto max-w-7xl px-4 py-8">
+          <div className="mb-6 h-5 w-36 animate-pulse rounded bg-gray-200" />
+
+          <div className="mb-7 rounded-3xl bg-white px-5 py-7 sm:px-8 sm:py-8 lg:px-10 lg:py-10">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="h-12 w-12 animate-pulse rounded-xl bg-green-50 sm:h-14 sm:w-14" />
+
+              <div className="flex-1">
+                <div className="h-7 w-40 animate-pulse rounded bg-gray-200 sm:h-8" />
+                <div className="mt-2 h-4 w-52 animate-pulse rounded bg-gray-200" />
+              </div>
+            </div>
+          </div>
+
+          <div className="mb-5 flex flex-col gap-3 rounded-3xl bg-white px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+            <div className="h-6 w-24 animate-pulse rounded bg-gray-200" />
+            <div className="h-10 w-48 animate-pulse rounded-lg bg-gray-200" />
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <div
+                key={index}
+                className="animate-pulse rounded-2xl border border-gray-200 bg-white p-5"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="h-12 w-12 rounded-xl bg-green-50" />
+
+                  <div className="flex-1">
+                    <div className="h-5 w-32 rounded bg-gray-200" />
+                    <div className="mt-2 h-3 w-20 rounded bg-gray-200" />
+                  </div>
+                </div>
+
+                <div className="mt-5 flex items-end justify-between">
+                  <div>
+                    <div className="h-3 w-16 rounded bg-gray-200" />
+                    <div className="mt-2 h-5 w-24 rounded bg-gray-200" />
+                  </div>
+
+                  <div className="h-6 w-14 rounded-full bg-gray-200" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  if (!categoryFound) {
     return (
       <main className="min-h-screen bg-[#f3f7f3]">
         <div className="mx-auto flex min-h-[70vh] max-w-7xl items-center justify-center px-4 py-16">
@@ -126,7 +180,7 @@ export default function CategoryPage({ params }) {
         <div className="mb-7 rounded-3xl bg-white px-5 py-7 sm:px-8 sm:py-8 lg:px-10 lg:py-10">
           <div className="flex items-center gap-3 sm:gap-4">
             <span className="shrink-0 text-3xl sm:text-4xl">
-              {categoryIcon || products[0]?.categoryIcon || "📦"}
+              {categoryIcon || "📦"}
             </span>
 
             <div className="min-w-0">
@@ -135,17 +189,14 @@ export default function CategoryPage({ params }) {
               </h1>
 
               <p className="mt-1 text-xs text-gray-500 sm:text-sm">
-                {formatNumber.format(products.length)}টি পণ্যের আজকের দাম ও পরিবর্তন
+                {formatNumber.format(products.length)}টি পণ্যের আজকের দাম ও
+                পরিবর্তন
               </p>
             </div>
           </div>
         </div>
 
-        {loading ? (
-          <div className="py-20 text-center text-sm text-gray-500">
-            পণ্য লোড হচ্ছে...
-          </div>
-        ) : products.length === 0 ? (
+        {products.length === 0 ? (
           <div className="rounded-2xl border border-gray-200 bg-white py-16 text-center">
             <p className="font-semibold text-gray-700">
               এই ক্যাটাগরিতে কোনো পণ্য পাওয়া যায়নি।
@@ -186,13 +237,13 @@ export default function CategoryPage({ params }) {
                     className="rounded-2xl border border-gray-200 bg-white p-5 transition hover:-translate-y-1 hover:border-green-200 hover:shadow-sm"
                   >
                     <div className="flex items-start justify-between gap-4">
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-green-50 text-2xl">
+                      <div className="flex min-w-0 items-center gap-3">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-green-50 text-2xl">
                           {product.categoryIcon || product.image}
                         </div>
 
-                        <div>
-                          <h3 className="text-[19px] font-bold text-gray-900">
+                        <div className="min-w-0">
+                          <h3 className="truncate text-[19px] font-bold text-gray-900">
                             {product.nameBn}
                           </h3>
 
@@ -203,7 +254,7 @@ export default function CategoryPage({ params }) {
                       </div>
                     </div>
 
-                    <div className="mt-5 flex items-end justify-between">
+                    <div className="mt-5 flex items-end justify-between gap-3">
                       <div>
                         <p className="text-xs text-gray-500">
                           আজকের দাম
@@ -215,7 +266,7 @@ export default function CategoryPage({ params }) {
                       </div>
 
                       <span
-                        className={`rounded-full px-2.5 py-1 text-xs font-bold ${
+                        className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-bold ${
                           isUp
                             ? "bg-red-50 text-red-600"
                             : "bg-green-50 text-green-600"

@@ -15,6 +15,12 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (!isPending && !session?.user) {
+      router.push("/sign-in");
+    }
+  }, [isPending, session, router]);
+
+  useEffect(() => {
     if (session?.user) {
       setName(session.user.name || "");
     }
@@ -66,7 +72,7 @@ export default function ProfilePage() {
     }
   };
 
-  if (isPending) {
+  if (isPending || !session?.user) {
     return (
       <main className="min-h-screen bg-[#f3f7f3] px-4 py-10">
         <div className="mx-auto max-w-5xl py-20 text-center text-sm text-gray-500">
@@ -76,9 +82,8 @@ export default function ProfilePage() {
     );
   }
 
-
-
-  const userInitial = session.user.name?.charAt(0)?.toUpperCase() || "U";
+  const userInitial =
+    session.user.name?.charAt(0)?.toUpperCase() || "U";
 
   return (
     <main className="min-h-screen bg-[#f3f7f3] px-4 py-8 sm:py-10">
@@ -93,40 +98,41 @@ export default function ProfilePage() {
           </p>
         </div>
 
-        <div>
-<div className="flex items-center gap-6 rounded-3xl border border-gray-200 bg-white p-6 sm:p-8">
-  <div className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-full bg-green-100 text-3xl font-extrabold text-green-700">
-    {session.user.image ? (
-      <img
-        src={session.user.image}
-        alt={session.user.name || "Profile"}
-        className="h-full w-full object-cover"
-      />
-    ) : (
-      userInitial
-    )}
-  </div>
+        <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-5 rounded-3xl border border-gray-200 bg-white p-6 sm:flex-row sm:items-center sm:p-8">
+            <div className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-full bg-green-100 text-3xl font-extrabold text-green-700">
+              {session.user.image ? (
+                <img
+                  src={session.user.image}
+                  alt={session.user.name || "Profile"}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                userInitial
+              )}
+            </div>
 
-  <div className="min-w-0 flex-1">
-    <h2 className="text-xl font-extrabold text-gray-900">
-      {session.user.name}
-    </h2>
+            <div className="min-w-0 flex-1">
+              <h2 className="text-xl font-extrabold text-gray-900">
+                {session.user.name}
+              </h2>
 
-    <p className="mt-1 text-sm text-gray-500">
-      {session.user.email}
-    </p>
+              <p className="mt-1 break-all text-sm text-gray-500">
+                {session.user.email}
+              </p>
+            </div>
 
-  </div>
-    <button
-      type="button"
-      onClick={handleLogout}
-      className="mt-5 inline-flex items-center gap-2 rounded-xl border border-red-200 px-5 py-3 text-sm font-bold text-red-600 transition hover:bg-red-50"
-    >
-      <LogOut size={17} />
-      সাইন আউট
-    </button>
-</div>
-          <div className="rounded-3xl border border-gray-200 bg-white p-6 sm:p-8 mt-5">
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-red-200 px-5 py-3 text-sm font-bold text-red-600 transition hover:bg-red-50 sm:shrink-0"
+            >
+              <LogOut size={17} />
+              সাইন আউট
+            </button>
+          </div>
+
+          <div className="rounded-3xl border border-gray-200 bg-white p-6 sm:p-8">
             <div className="mb-6 flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-green-50 text-green-600">
                 <User size={20} />
@@ -157,7 +163,6 @@ export default function ProfilePage() {
                   className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-green-500 focus:ring-2 focus:ring-green-100"
                 />
               </div>
-
 
               <button
                 type="submit"

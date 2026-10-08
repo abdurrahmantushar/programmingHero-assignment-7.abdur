@@ -1,5 +1,6 @@
 "use client";
 
+import { getUnitName } from "@/lib/formatUnit";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -12,7 +13,7 @@ export default function PriceMarquee() {
     const fetchProducts = async () => {
       try {
         const response = await fetch(
-          "https://api.api-store.workers.dev/api/bazardor/products"
+          "https://api.abcz.workers.dev/api/bazardor/products"
         );
 
         if (!response.ok) {
@@ -37,7 +38,7 @@ export default function PriceMarquee() {
   const items = [...products, ...products];
 
   return (
-    <div className="w-full overflow-hidden border border-gray-100 bg-white">
+    <div className=" w-full overflow-hidden border border-gray-100 bg-white">
       <div className="price-marquee">
         <div className="flex w-max">
           {items.map((product, index) => {
@@ -62,7 +63,7 @@ export default function PriceMarquee() {
                 </span>
 
                 <span className="whitespace-nowrap text-xs text-gray-500">
-                  / {product.unit}
+                  / {getUnitName(product.unit)}
                 </span>
 
                 <span

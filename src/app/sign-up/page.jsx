@@ -11,6 +11,8 @@ import { FaGithub, FaGoogle } from "react-icons/fa";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
+
 export default function SignUpPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -25,15 +27,15 @@ export default function SignUpPage() {
   const handleSubmit =async (e) =>{
     e.preventDefault()
 
-    if(!name || !email || !password || !confirmPassword){
-      console.log(error)
-      return
-    }
+      if (!name || !email || !password || !confirmPassword) {
+        toast.error("সব তথ্য পূরণ করুন");
+        return;
+      }
 
-    if(password !== confirmPassword) {
-      console.log(error)
-      return
-    }
+      if (password !== confirmPassword) {
+        toast.error("পাসওয়ার্ড মিলছে না");
+        return;
+}
     setLoading(true)
 
     try {
@@ -46,7 +48,8 @@ export default function SignUpPage() {
         console.error(error.message || "অ্যাকাউন্ট তৈরি করা যায়নি");
         return;
       }
-      router.push('/sign-in')
+      toast.success("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে");
+      router.push("/sign-in");
     } catch (error) {
       console.log(error)
     } finally{

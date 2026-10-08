@@ -22,7 +22,7 @@
 
 ## 🌐 Live Website
 
-[Visit BazarDor](YOUR_LIVE_URL)
+[Visit BazarDor](https://programming-hero-assignment-7-abdur.vercel.app/)
 
 ## 👨‍💻 Developer
 

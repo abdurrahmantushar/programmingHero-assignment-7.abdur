@@ -1,0 +1,80 @@
+"use client";
+
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
+export default function PriceMarquee() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(
+          "https://api.api-store.workers.dev/api/bazardor/products"
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch products");
+        }
+
+        const data = await response.json();
+
+        setProducts(Array.isArray(data) ? data : []);
+      } catch {
+        setProducts([]);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  if (!products.length) {
+    return null;
+  }
+
+  const items = [...products, ...products];
+
+  return (
+    <div className="w-full overflow-hidden  bg-white border border-gray-100">
+      <div className="price-marquee">
+        <div className="flex w-max">
+          {items.map((product, index) => {
+            const isUp = product.change?.dir === "up";
+
+            return (
+              <Link
+                key={`${product.id}-${index}`}
+                href={`/product/${product.slug}`}
+                className="flex shrink-0 items-center gap-2 border-r border-green-200 px-6 py-3 transition hover:bg-green-100"
+              >
+                <span className="text-lg">
+                  {product.categoryIcon || product.image}
+                </span>
+
+                <span className="whitespace-nowrap text-sm font-semibold text-gray-800">
+                  {product.nameBn}
+                </span>
+
+                <span className="whitespace-nowrap text-sm font-bold text-green-700">
+                  ৳{product.today}
+                </span>
+
+                <span className="whitespace-nowrap text-xs text-gray-500">
+                  / {product.unit}
+                </span>
+
+                <span
+                  className={`whitespace-nowrap text-xs font-semibold ${
+                    isUp ? "text-red-500" : "text-green-600"
+                  }`}
+                >
+                  {isUp ? "▲" : "▼"} {product.change?.pct}%
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}

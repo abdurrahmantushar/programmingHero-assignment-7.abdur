@@ -1,5 +1,6 @@
 "use client";
 
+import { getUnitName } from "@/lib/formatUnit";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -61,7 +62,7 @@ export default function AllProducts() {
                       </h3>
 
                       <p className="mt-1 text-xs text-gray-500">
-                        প্রতি {product.unit}
+                        প্রতি {getUnitName(product.unit)}
                       </p>
                     </div>
                   </div>

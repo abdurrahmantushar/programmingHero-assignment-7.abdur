@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
+import { getUnitName } from "@/lib/formatUnit";
 
 export default function ProductDetailsPage({ params }) {
   const [product, setProduct] = useState(null);
@@ -173,7 +174,7 @@ export default function ProductDetailsPage({ params }) {
                   </span>
 
                   <span className="mb-1 text-sm text-gray-500">
-                    টাকা / {product.unit}
+                    টাকা / {getUnitName(product.unit)}
                   </span>
                 </div>
 

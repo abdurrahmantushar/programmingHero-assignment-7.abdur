@@ -1,5 +1,6 @@
 "use client";
 
+import { getUnitName } from "@/lib/formatUnit";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -42,8 +43,8 @@ export default function TodayPriceIncrease() {
         <div className="mb-5 flex items-center justify-between">
           <div>
             <h2 className="flex gap-3 text-2xl font-extrabold text-gray-900">
-              <p className="text-red-500">▲</p>
-              আজ দাম বেড়েছে
+              <p className="text-green-500">▲</p>
+              আজ দাম কমেছে
             </h2>
           </div>
         </div>
@@ -67,7 +68,7 @@ export default function TodayPriceIncrease() {
                     </h3>
 
                     <p className="mt-1 text-xs text-gray-500">
-                      প্রতি {product.unit}
+                      প্রতি {getUnitName(product.unit)}
                     </p>
                   </div>
                 </div>
@@ -82,7 +83,7 @@ export default function TodayPriceIncrease() {
                   </p>
                 </div>
 
-                <span className="rounded-full bg-red-50 px-2.5 py-1 text-xs font-bold text-red-600">
+                <span className="rounded-full bg-green-50 px-2.5 py-1 text-xs font-bold text-green-600">
                   ▲ {formatNumber.format(product.change?.pct)}%
                 </span>
               </div>

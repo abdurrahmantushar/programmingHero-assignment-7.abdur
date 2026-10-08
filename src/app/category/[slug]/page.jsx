@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
+import { getUnitName } from "@/lib/formatUnit";
 
 export default function CategoryPage({ params }) {
   const [products, setProducts] = useState([]);
@@ -143,7 +144,7 @@ export default function CategoryPage({ params }) {
                           </h3>
 
                           <p className="mt-1 text-xs text-gray-500">
-                            প্রতি {product.unit}
+                            প্রতি {getUnitName(product.unit)}
                           </p>
                         </div>
                       </div>

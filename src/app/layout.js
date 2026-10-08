@@ -18,10 +18,10 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="bn">
+    <html lang="bn" data-scroll-behavior="smooth">
       <body className={notoSansBengali.variable}>
         <Navbar />
-        <PriceMarquee/>
+        <PriceMarquee />
         {children}
         <Footer />
         <Toaster

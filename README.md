@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🛒 বাজার দর | BazarDor
 
-## Getting Started
+বাজার দর একটি responsive web application যেখানে বাংলাদেশের নিত্যপ্রয়োজনীয় পণ্যের বর্তমান বাজার মূল্য সহজে দেখা যায়। ব্যবহারকারীরা বিভিন্ন ক্যাটাগরি অনুযায়ী পণ্যের দাম, দামের পরিবর্তন এবং বাজারভিত্তিক মূল্য দেখতে পারে।
 
-First, run the development server:
+## 🛠️ Technologies Used
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Next.js
+- JavaScript
+- React
+- Tailwind CSS
+- Better Auth
+- MongoDB
+- REST API
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Key Features
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- 📊 নিত্যপ্রয়োজনীয় পণ্যের বর্তমান বাজার মূল্য দেখা
+- 🗂️ ক্যাটাগরি অনুযায়ী পণ্য ব্রাউজ এবং price sorting
+- 📈 দাম বৃদ্ধি ও 📉 দাম কমার তথ্য দেখা
+- 🏪 বিভিন্ন বাজারের সর্বনিম্ন, সর্বাধিক ও গড় দাম দেখা
+- 🔐 Email, Google ও GitHub authentication এবং protected routes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🌐 Live Website
 
-## Learn More
+[Visit BazarDor](YOUR_LIVE_URL)
 
-To learn more about Next.js, take a look at the following resources:
+## 👨‍💻 Developer
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Md Abdur Rahman Tushar**

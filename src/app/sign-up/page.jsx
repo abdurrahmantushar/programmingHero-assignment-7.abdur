@@ -46,7 +46,7 @@ export default function SignUpPage() {
         console.error(error.message || "অ্যাকাউন্ট তৈরি করা যায়নি");
         return;
       }
-      router.push('/')
+      router.push('/sign-in')
     } catch (error) {
       console.log(error)
     } finally{

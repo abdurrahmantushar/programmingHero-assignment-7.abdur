@@ -8,6 +8,8 @@ import { getUnitName } from "@/lib/formatUnit";
 export default function CategoryPage({ params }) {
   const [products, setProducts] = useState([]);
   const [categoryName, setCategoryName] = useState("");
+  const [categoryIcon, setCategoryIcon] = useState("");
+  const [categoryFound, setCategoryFound] = useState(true);
   const [loading, setLoading] = useState(true);
   const [sortOrder, setSortOrder] = useState("default");
 
@@ -17,6 +19,25 @@ export default function CategoryPage({ params }) {
     const fetchProducts = async () => {
       try {
         const { slug } = await params;
+
+        const categoryResponse = await fetch(
+          "https://api.api-store.workers.dev/api/bazardor/categories"
+        );
+
+        if (!categoryResponse.ok) {
+          throw new Error("Failed to fetch categories");
+        }
+
+        const categories = await categoryResponse.json();
+
+        const category = Array.isArray(categories)
+          ? categories.find((item) => item.slug === slug)
+          : null;
+
+        if (!category) {
+          setCategoryFound(false);
+          return;
+        }
 
         const response = await fetch(
           "https://api.api-store.workers.dev/api/bazardor/products"
@@ -33,10 +54,8 @@ export default function CategoryPage({ params }) {
           : [];
 
         setProducts(categoryProducts);
-
-        if (categoryProducts.length > 0) {
-          setCategoryName(categoryProducts[0].categoryNameBn);
-        }
+        setCategoryName(category.nameBn);
+        setCategoryIcon(category.icon);
       } catch {
         setProducts([]);
       } finally {
@@ -59,6 +78,40 @@ export default function CategoryPage({ params }) {
     return 0;
   });
 
+  if (!loading && !categoryFound) {
+    return (
+      <main className="min-h-screen bg-[#f3f7f3]">
+        <div className="mx-auto flex min-h-[70vh] max-w-7xl items-center justify-center px-4 py-16">
+          <div className="w-full max-w-lg rounded-3xl border border-gray-200 bg-white px-6 py-14 text-center sm:px-10">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-50 text-3xl">
+              🔍
+            </div>
+
+            <p className="mt-6 text-6xl font-extrabold text-green-600">
+              404
+            </p>
+
+            <h1 className="mt-4 text-2xl font-extrabold text-gray-900">
+              ক্যাটাগরি পাওয়া যায়নি
+            </h1>
+
+            <p className="mt-2 text-sm leading-6 text-gray-500">
+              আপনি যে ক্যাটাগরিটি খুঁজছেন সেটি পাওয়া যায়নি।
+            </p>
+
+            <Link
+              href="/"
+              className="mt-7 inline-flex items-center gap-2 rounded-xl bg-green-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-green-700"
+            >
+              <ArrowLeft size={17} />
+              হোমে ফিরে যান
+            </Link>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-[#f3f7f3]">
       <div className="mx-auto max-w-7xl px-4 py-8">
@@ -73,7 +126,7 @@ export default function CategoryPage({ params }) {
         <div className="mb-7 rounded-3xl bg-white px-5 py-7 sm:px-8 sm:py-8 lg:px-10 lg:py-10">
           <div className="flex items-center gap-3 sm:gap-4">
             <span className="shrink-0 text-3xl sm:text-4xl">
-              {products[0]?.categoryIcon || "📦"}
+              {categoryIcon || products[0]?.categoryIcon || "📦"}
             </span>
 
             <div className="min-w-0">

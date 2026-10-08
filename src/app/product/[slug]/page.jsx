@@ -65,10 +65,30 @@ export default function ProductDetailsPage({ params }) {
             হোমে ফিরে যান
           </Link>
 
-          <div className="mt-8 rounded-2xl border border-gray-200 bg-white py-16 text-center">
-            <p className="font-semibold text-gray-700">
-              এই পণ্যটি পাওয়া যায়নি।
+          <div className="mx-auto mt-8 max-w-lg rounded-3xl border border-gray-200 bg-white px-6 py-14 text-center">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-50 text-3xl">
+              🔍
+            </div>
+
+            <p className="mt-6 text-6xl font-extrabold text-green-600">
+              404
             </p>
+
+            <h1 className="mt-4 text-2xl font-extrabold text-gray-900">
+              পণ্য পাওয়া যায়নি
+            </h1>
+
+            <p className="mt-2 text-sm leading-6 text-gray-500">
+              আপনি যে পণ্যটি খুঁজছেন সেটি পাওয়া যায়নি।
+            </p>
+
+            <Link
+              href="/"
+              className="mt-7 inline-flex items-center gap-2 rounded-xl bg-green-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-green-700"
+            >
+              <ArrowLeft size={17} />
+              হোমে ফিরে যান
+            </Link>
           </div>
         </div>
       </main>
@@ -155,7 +175,7 @@ export default function ProductDetailsPage({ params }) {
                 </span>
 
                 <span className="text-sm text-gray-500">
-                  প্রতি {product.unit}
+                  প্রতি {getUnitName(product.unit)}
                 </span>
               </div>
 
@@ -259,7 +279,7 @@ export default function ProductDetailsPage({ params }) {
                 </p>
 
                 <p className="text-sm text-gray-500">
-                  প্রতি কেজি-এর হিসাবে
+                  প্রতি {getUnitName(product.unit)}-এর হিসাবে
                 </p>
               </div>
             </div>

@@ -10,6 +10,8 @@ export default function CategoryPage({ params }) {
   const [loading, setLoading] = useState(true);
   const [sortOrder, setSortOrder] = useState("default");
 
+  const formatNumber = new Intl.NumberFormat("bn-BD");
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -79,7 +81,7 @@ export default function CategoryPage({ params }) {
               </h1>
 
               <p className="mt-1 text-xs text-gray-500 sm:text-sm">
-                {products.length}টি পণ্যের আজকের দাম ও পরিবর্তন
+                {formatNumber.format(products.length)}টি পণ্যের আজকের দাম ও পরিবর্তন
               </p>
             </div>
           </div>
@@ -97,7 +99,7 @@ export default function CategoryPage({ params }) {
           </div>
         ) : (
           <>
-            <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between bg-white px-2 py-5 sm:px-4 sm:py-6 lg:px-6 lg:py-6 rounded-3xl">
+            <div className="mb-5 flex flex-col gap-3 rounded-3xl bg-white px-2 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-4 sm:py-6 lg:px-6 lg:py-6">
               <h2 className="text-lg font-bold text-gray-900">
                 পণ্যসমূহ
               </h2>
@@ -154,7 +156,7 @@ export default function CategoryPage({ params }) {
                         </p>
 
                         <p className="mt-1 text-[17px] font-extrabold text-gray-900">
-                          {product.today} টাকা
+                          {formatNumber.format(product.today)} টাকা
                         </p>
                       </div>
 
@@ -165,7 +167,8 @@ export default function CategoryPage({ params }) {
                             : "bg-green-50 text-green-600"
                         }`}
                       >
-                        {isUp ? "▲" : "▼"} {product.change?.pct}%
+                        {isUp ? "▲" : "▼"}{" "}
+                        {formatNumber.format(product.change?.pct)}%
                       </span>
                     </div>
                   </Link>

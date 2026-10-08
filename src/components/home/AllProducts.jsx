@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 export default function AllProducts() {
   const [products, setProducts] = useState([]);
 
+  const formatNumber = new Intl.NumberFormat("bn-BD");
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -29,7 +31,7 @@ export default function AllProducts() {
   }, []);
 
   return (
-    <section id="products" className="px-4 py-6 pb-12">
+    <section id="সব-পণ্য" className="px-4 py-6 pb-12">
       <div className="mx-auto max-w-7xl">
         <div className="mb-5">
           <h2 className="text-2xl font-extrabold text-gray-900">
@@ -72,7 +74,7 @@ export default function AllProducts() {
                     </p>
 
                     <p className="mt-1 text-[17px] font-extrabold text-gray-900">
-                      {product.today} টাকা
+                      {formatNumber.format(product.today)} টাকা
                     </p>
                   </div>
 
@@ -83,7 +85,8 @@ export default function AllProducts() {
                         : "bg-green-50 text-green-600"
                     }`}
                   >
-                    {isUp ? "▲" : "▼"} {product.change?.pct}%
+                    {isUp ? "▲" : "▼"}{" "}
+                    {formatNumber.format(product.change?.pct)}%
                   </span>
                 </div>
               </Link>

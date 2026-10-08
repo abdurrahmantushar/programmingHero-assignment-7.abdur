@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 export default function PriceMarquee() {
   const [products, setProducts] = useState([]);
 
+  const formatNumber = new Intl.NumberFormat("bn-BD");
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -35,7 +37,7 @@ export default function PriceMarquee() {
   const items = [...products, ...products];
 
   return (
-    <div className="w-full overflow-hidden  bg-white border border-gray-100">
+    <div className="w-full overflow-hidden border border-gray-100 bg-white">
       <div className="price-marquee">
         <div className="flex w-max">
           {items.map((product, index) => {
@@ -56,7 +58,7 @@ export default function PriceMarquee() {
                 </span>
 
                 <span className="whitespace-nowrap text-sm font-bold text-green-700">
-                  ৳{product.today}
+                  ৳{formatNumber.format(product.today)}
                 </span>
 
                 <span className="whitespace-nowrap text-xs text-gray-500">
@@ -68,7 +70,8 @@ export default function PriceMarquee() {
                     isUp ? "text-red-500" : "text-green-600"
                   }`}
                 >
-                  {isUp ? "▲" : "▼"} {product.change?.pct}%
+                  {isUp ? "▲" : "▼"}{" "}
+                  {formatNumber.format(product.change?.pct)}%
                 </span>
               </Link>
             );

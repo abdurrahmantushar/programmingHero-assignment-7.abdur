@@ -2,11 +2,13 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ArrowLeft, MapPin } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 export default function ProductDetailsPage({ params }) {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const formatNumber = new Intl.NumberFormat("bn-BD");
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -96,20 +98,6 @@ export default function ProductDetailsPage({ params }) {
 
   const roundedAverage = Number(averagePrice.toFixed(2));
 
-  const lowestMarket =
-    markets.length > 0
-      ? markets.reduce((lowest, market) =>
-          Number(market.min) < Number(lowest.min) ? market : lowest
-        )
-      : null;
-
-  const highestMarket =
-    markets.length > 0
-      ? markets.reduce((highest, market) =>
-          Number(market.max) > Number(highest.max) ? market : highest
-        )
-      : null;
-
   const isUp = product.change?.dir === "up";
 
   const priceDifference = Math.abs(
@@ -120,8 +108,8 @@ export default function ProductDetailsPage({ params }) {
     const number = Number(price);
 
     return Number.isInteger(number)
-      ? number
-      : number.toFixed(2).replace(/0+$/, "").replace(/\.$/, "");
+      ? formatNumber.format(number)
+      : formatNumber.format(Number(number.toFixed(2)));
   };
 
   return (
@@ -181,7 +169,7 @@ export default function ProductDetailsPage({ params }) {
 
                 <div className="mt-2 flex flex-wrap items-end gap-3">
                   <span className="text-4xl font-extrabold text-gray-900 sm:text-5xl">
-                    {product.today}
+                    {formatNumber.format(product.today)}
                   </span>
 
                   <span className="mb-1 text-sm text-gray-500">
@@ -197,7 +185,8 @@ export default function ProductDetailsPage({ params }) {
                         : "bg-green-50 text-green-600"
                     }`}
                   >
-                    {isUp ? "▲" : "▼"} {product.change?.pct}%
+                    {isUp ? "▲" : "▼"}{" "}
+                    {formatNumber.format(product.change?.pct)}%
                   </span>
 
                   <p className="text-sm text-gray-500">
@@ -209,7 +198,7 @@ export default function ProductDetailsPage({ params }) {
                     >
                       {isUp ? "বেড়েছে" : "কমেছে"}
                     </span>{" "}
-                    · {priceDifference} টাকা
+                    · {formatNumber.format(priceDifference)} টাকা
                   </p>
                 </div>
               </div>
@@ -233,7 +222,10 @@ export default function ProductDetailsPage({ params }) {
                     টাকা
                   </span>
                 </p>
-                <p className="text-sm  text-gray-500">সবচেয়ে কম দামের বাজার</p>
+
+                <p className="text-sm text-gray-500">
+                  সবচেয়ে কম দামের বাজার
+                </p>
               </div>
 
               <div className="rounded-2xl border border-gray-200 bg-gray-50 p-5">
@@ -247,7 +239,10 @@ export default function ProductDetailsPage({ params }) {
                     টাকা
                   </span>
                 </p>
-                <p className="text-sm  text-gray-500"> সবচেয়ে বেশি দামের বাজার </p>
+
+                <p className="text-sm text-gray-500">
+                  সবচেয়ে বেশি দামের বাজার
+                </p>
               </div>
 
               <div className="rounded-2xl border border-gray-200 bg-gray-50 p-5">
@@ -261,20 +256,18 @@ export default function ProductDetailsPage({ params }) {
                     টাকা
                   </span>
                 </p>
-                <p className="text-sm  text-gray-500"> প্রতি কেজি-এর হিসাবে</p>
+
+                <p className="text-sm text-gray-500">
+                  প্রতি কেজি-এর হিসাবে
+                </p>
               </div>
             </div>
-
           </div>
 
           <div className="mt-10 border-t border-gray-200 pt-8">
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <h2 className="text-xl font-extrabold text-gray-900 sm:text-2xl">
-                  বাজারভিত্তিক আজকের দাম
-                </h2>
-              </div>
-            </div>
+            <h2 className="text-xl font-extrabold text-gray-900 sm:text-2xl">
+              বাজারভিত্তিক আজকের দাম
+            </h2>
 
             <div className="mt-5 overflow-hidden rounded-2xl border border-gray-200">
               <div className="overflow-x-auto">
@@ -310,10 +303,12 @@ export default function ProductDetailsPage({ params }) {
 
                       return (
                         <tr
-                        key={`${market.market}-${index}`}
-                        className={`border-t border-gray-200 ${
-                            index % 2 === 0 ? "bg-white" : "bg-green-100/50"
-                        }`}
+                          key={`${market.market}-${index}`}
+                          className={`border-t border-gray-200 ${
+                            index % 2 === 0
+                              ? "bg-white"
+                              : "bg-green-100/50"
+                          }`}
                         >
                           <td className="px-5 py-4 text-sm font-semibold text-gray-900">
                             {market.market}
@@ -324,11 +319,11 @@ export default function ProductDetailsPage({ params }) {
                           </td>
 
                           <td className="px-5 py-4 text-right text-sm text-gray-700">
-                            {market.min} টাকা
+                            {formatPrice(market.min)} টাকা
                           </td>
 
                           <td className="px-5 py-4 text-right text-sm text-gray-700">
-                            {market.max} টাকা
+                            {formatPrice(market.max)} টাকা
                           </td>
 
                           <td className="px-5 py-4 text-right text-sm font-bold text-gray-900">

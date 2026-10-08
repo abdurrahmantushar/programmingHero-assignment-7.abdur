@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export default function TodayPriceDecrease() {
+export default function TodayPriceIncrease() {
   const [products, setProducts] = useState([]);
+
+  const formatNumber = new Intl.NumberFormat("bn-BD");
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -19,13 +21,13 @@ export default function TodayPriceDecrease() {
 
         const data = await response.json();
 
-        const decreasedProducts = Array.isArray(data)
+        const increasedProducts = Array.isArray(data)
           ? data
-              .filter((product) => product.change?.dir === "down")
+              .filter((product) => product.change?.dir === "up")
               .slice(0, 6)
           : [];
 
-        setProducts(decreasedProducts);
+        setProducts(increasedProducts);
       } catch {
         setProducts([]);
       }
@@ -40,8 +42,8 @@ export default function TodayPriceDecrease() {
         <div className="mb-5 flex items-center justify-between">
           <div>
             <h2 className="flex gap-3 text-2xl font-extrabold text-gray-900">
-              <p className="text-green-500">▼</p>
-              আজ দাম কমেছে
+              <p className="text-red-500">▲</p>
+              আজ দাম বেড়েছে
             </h2>
           </div>
         </div>
@@ -55,7 +57,7 @@ export default function TodayPriceDecrease() {
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-green-50 text-2xl">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-green-50">
                     {product.categoryIcon || product.image}
                   </div>
 
@@ -76,12 +78,12 @@ export default function TodayPriceDecrease() {
                   <p className="text-xs text-gray-500">আজকের দাম</p>
 
                   <p className="mt-1 text-[17px] font-extrabold text-gray-900">
-                    {product.today} টাকা
+                    {formatNumber.format(product.today)} টাকা
                   </p>
                 </div>
 
-                <span className="rounded-full bg-green-50 px-2.5 py-1 text-xs font-bold text-green-600">
-                  ▼ {product.change?.pct}%
+                <span className="rounded-full bg-red-50 px-2.5 py-1 text-xs font-bold text-red-600">
+                  ▲ {formatNumber.format(product.change?.pct)}%
                 </span>
               </div>
             </Link>

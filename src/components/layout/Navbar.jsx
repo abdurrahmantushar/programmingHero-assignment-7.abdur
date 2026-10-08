@@ -11,6 +11,7 @@ export default function Navbar() {
   const router = useRouter();
   const dropdownRef = useRef(null);
 
+  const [pathname, setPathname] = useState("");
   const [categories, setCategories] = useState([]);
   const [currentDate, setCurrentDate] = useState("");
   const [openDropdown, setOpenDropdown] = useState(false);
@@ -62,6 +63,20 @@ export default function Navbar() {
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handlePathnameChange = () => {
+      setPathname(window.location.pathname);
+    };
+
+    handlePathnameChange();
+
+    window.addEventListener("popstate", handlePathnameChange);
+
+    return () => {
+      window.removeEventListener("popstate", handlePathnameChange);
     };
   }, []);
 
@@ -183,14 +198,19 @@ export default function Navbar() {
 
         <nav className="hidden items-center gap-1 lg:flex">
           {categories.map((category) => (
-            <Link
-              key={category.id}
-              href={`/category/${category.slug}`}
-              className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition hover:bg-green-50 hover:text-green-700"
-            >
-              <span>{category.icon}</span>
-              <span>{category.nameBn}</span>
-            </Link>
+        <Link
+          key={category.id}
+          href={`/category/${category.slug}`}
+          onClick={() => setPathname(`/category/${category.slug}`)}
+          className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition ${
+            pathname === `/category/${category.slug}`
+              ? "bg-green-100 text-green-700"
+              : "text-gray-600 hover:bg-green-50 hover:text-green-700"
+          }`}
+        >
+          <span>{category.icon}</span>
+          <span>{category.nameBn}</span>
+        </Link>
           ))}
         </nav>
       </div>
